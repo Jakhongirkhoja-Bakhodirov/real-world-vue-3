@@ -6,7 +6,7 @@ import About from '../views/AboutView.vue';
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'EventList',
     component: EventList,
   },
   {
@@ -17,7 +17,7 @@ const routes = [
   },
   {
     path: '/about',
-    name: 'about',
+    name: 'About',
     component: About,
   },
 ];
