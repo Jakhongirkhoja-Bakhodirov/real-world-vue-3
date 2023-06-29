@@ -12,8 +12,9 @@ const apiClient = axios.create({
 
 export default {
   getEvents() {
-    return apiClient.get(
-      'https://my-json-server.typicode.com/Jakhongirkhoja-Bakhodirov/real-world-vue-3/events/'
-    );
+    return apiClient.get('events');
+  },
+  getEventById(id) {
+    return apiClient.get(`events/${id}`);
   },
 };
