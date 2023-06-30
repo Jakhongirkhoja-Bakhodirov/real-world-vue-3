@@ -2,6 +2,22 @@
   <div class="events">
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <EventCard v-for="event in events" :key="event.id" :event="event" />
+    <router-link
+      id="page-prev"
+      :to="{ name: 'EventList', query: { page: page - 1 } }"
+      rel="prev"
+      v-if="page != 1"
+      >&#60; Prev</router-link
+    >
+
+    <router-link
+      id="page-next"
+      :to="{ name: 'EventList', query: { page: page + 1 } }"
+      rel="next"
+      v-if="hasNextPage"
+    >
+      Next &#62;</router-link
+    >
   </div>
 </template>
 
@@ -9,25 +25,39 @@
 // @ is an alias to /src
 import EventCard from '@/components/EventCard.vue';
 import EventService from '@/services/EventService';
+import { watchEffect } from 'vue';
 
 export default {
   name: 'EventList',
+  props: ['page'],
   components: {
     EventCard,
   },
   data() {
     return {
       events: null,
+      totalEvents: 0,
     };
   },
   created() {
-    EventService.getEvents()
-      .then((response) => {
-        this.events = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    watchEffect(() => {
+      this.events = null;
+      EventService.getEvents(2, this.page)
+        .then((response) => {
+          this.events = response.data;
+          this.totalEvents = response.headers['x-total-count'];
+          console.log(this.totalEvents);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  },
+  computed: {
+    hasNextPage() {
+      let totalPages = Math.ceil(this.totalEvents / 2);
+      return totalPages > this.page;
+    },
   },
 };
 </script>
@@ -37,5 +67,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#page-next {
+  text-align: right;
+}
+
+#page-prev {
+  text-align: left;
 }
 </style>
