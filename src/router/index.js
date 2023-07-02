@@ -14,18 +14,6 @@ const routes = [
     component: EventList,
   },
   {
-    path: '/events/:id/register',
-    name: 'EventRegister',
-    props: true,
-    component: EventRegister,
-  },
-  {
-    path: '/events/:id/edit',
-    name: 'EventEdit',
-    props: true,
-    component: EventEdit,
-  },
-  {
     path: '/events/:id',
     name: 'EventLayout',
     props: true,
@@ -49,9 +37,10 @@ const routes = [
     ],
   },
   {
-    path: '/about',
+    path: '/about-us',
     name: 'About',
     component: About,
+    alias: '/about',
   },
 ];
 
