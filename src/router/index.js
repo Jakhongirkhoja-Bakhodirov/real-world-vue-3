@@ -14,7 +14,7 @@ const routes = [
     component: EventList,
   },
   {
-    path: '/events/:id',
+    path: '/event/:id',
     name: 'EventLayout',
     props: true,
     component: EventLayout,
@@ -34,6 +34,16 @@ const routes = [
         name: 'EventEdit',
         component: EventEdit,
       },
+    ],
+  },
+  {
+    path: '/events/:id',
+    redirect: () => {
+      return { name: 'EventDetails' };
+    },
+    children: [
+      { path: 'register', redirect: () => ({ name: 'EventRegister' }) },
+      { path: 'edit', redirect: () => ({ name: 'EventEdit' }) },
     ],
   },
   {
