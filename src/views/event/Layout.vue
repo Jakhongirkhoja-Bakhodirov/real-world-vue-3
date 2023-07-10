@@ -1,6 +1,7 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div v-if="event">
-    <h1>{{ event.title }}</h1>
+  <div v-if="GStore.event">
+    <h1>{{ GStore.event.title }}</h1>
     <div id="nav">
       <router-link :to="{ name: 'EventDetails', params: { id } }"
         >Details</router-link
@@ -14,38 +15,21 @@
         >Register</router-link
       >
     </div>
-    <router-view :event="event"></router-view>
+    <router-view :event="GStore.event"></router-view>
   </div>
 </template>
 
 <script>
-import EventService from '@/services/EventService';
+// import EventService from '@/services/EventService';
 export default {
-  name: 'EventLayout',
-  props: ['id'],
-  data() {
-    return {
-      event: null,
-    };
-  },
-  created() {
-    EventService.getEventById(this.id)
-      .then((response) => {
-        this.event = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response && error.response.status == 404) {
-          this.$router.push({
-            name: '404Resource',
-            params: { resource: 'event' },
-          });
-        } else {
-          this.$router.push({
-            name: 'NetworkError',
-          });
-        }
-      });
-  },
+  inject: ['GStore'],
+  // name: 'EventLayout',
+  // props: ['id'],
+  // data() {
+  //   return {
+  //     event: null,
+  //   };
+  // },
+  // created() {},
 };
 </script>

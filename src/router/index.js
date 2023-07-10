@@ -8,6 +8,8 @@ import About from '../views/AboutView.vue';
 import NotFound from '../views/NotFound.vue';
 import NetworkError from '../views/NetworkError.vue';
 import NProgress from 'nprogress';
+import EventService from '@/services/EventService';
+import GStore from '@/store/index';
 
 const routes = [
   {
@@ -21,6 +23,25 @@ const routes = [
     name: 'EventLayout',
     props: true,
     component: EventLayout,
+    beforeEnter: (to) => {
+      return EventService.getEventById(to.params.id)
+        .then((response) => {
+          GStore.event = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response && error.response.status == 404) {
+            return {
+              name: '404Resource',
+              params: { resource: 'event' },
+            };
+          } else {
+            return {
+              name: 'NetworkError',
+            };
+          }
+        });
+    },
     children: [
       {
         path: '',
