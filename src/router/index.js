@@ -4,7 +4,8 @@ import EventDetails from '../views/event/Details.vue';
 import EventLayout from '../views/event/Layout.vue';
 import EventRegister from '../views/event/Register.vue';
 import EventEdit from '../views/event/Edit.vue';
-import About from '../views/AboutView.vue';
+const About = () =>
+  import(/* webpackChunkName:"creator" */ '../views/AboutView.vue');
 import NotFound from '../views/NotFound.vue';
 import NetworkError from '../views/NetworkError.vue';
 import NProgress from 'nprogress';
